@@ -279,7 +279,7 @@ export function UpdateCode({
                   <b>Langage :</b>
                 </Typography>
                 <Typography variant="span">
-                  <b>Catégorie :</b>{" "}
+                  <b>Cathégorie :</b>{" "}
                 </Typography>
                 <Typography variant="span">
                   <b>Titre : </b>

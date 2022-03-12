@@ -102,7 +102,7 @@ const otherLang = [
 function Main() {
   //------------- Initialisation ---------------
 
-  const [lang, setLang] = useState("note");
+  const [lang, setLang] = useState("javascript");
   const [codeTitle, setCodeTitle] = useState([]);
   const [codePost, setCodePost] = useState(codePostInit);
   const [lastCategory, setLastCategory] = useState("");
@@ -120,13 +120,8 @@ function Main() {
       orderBy("category", "asc"),
       orderBy("title", "asc")
     );
-    const unsub = onSnapshot(
-      q,
-      (snapshot) =>
-        setCodeTitle(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        ),
-      gotoPost("0wtSF6ovkHlPQ3Y3gFMH")
+    const unsub = onSnapshot(q, (snapshot) =>
+      setCodeTitle(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
   }, [lang]);
 
@@ -183,12 +178,6 @@ function Main() {
               </ListItem>
             ))}
           </List>
-          <Divider />
-          <List>
-            <ListItem onClick={() => changeLang("note")} button key="note">
-              <ListItemText primary="Notes" />
-            </ListItem>
-          </List>
         </Stack>
         <Stack sx={theme.firstCol} direction="column">
           <input
@@ -207,7 +196,6 @@ function Main() {
                     onClick={() => gotoPost(x.id)}
                     size="small"
                     variant="contained"
-                    color={x.category.match(/^-/) ? "secondary" : "primary"}
                   >
                     {x.title.slice(1)}
                   </Button>
@@ -249,22 +237,20 @@ function Main() {
           <Box sx={theme.mainCol}>
             <Stack direction="row">
               <Stack sx={theme.titles}>
+                <Typography variant="span">Title: {codePost.title}</Typography>
                 <Typography variant="span">
-                  <b>Title :</b> {codePost.title}
+                  Cathegorie: {codePost.category}{" "}
                 </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b> {codePost.category}
-                </Typography>
-                <Typography variant="span">Dépendences : * </Typography>
+                <Typography variant="span">Dépendences: </Typography>
               </Stack>
 
               <Stack sx={theme.titles}>
-                <Typography variant="span">Modification : *</Typography>
-                <Typography variant="span">Création : *</Typography>
+                <Typography variant="span">Modification: 18/08/2022</Typography>
+                <Typography variant="span">Création: 18/08/2020</Typography>
               </Stack>
 
               <Stack>
-                <Typography variant="span">Testé : * </Typography>
+                <Typography variant="span">Testé: </Typography>
               </Stack>
             </Stack>
 

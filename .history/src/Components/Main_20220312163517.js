@@ -207,7 +207,7 @@ function Main() {
                     onClick={() => gotoPost(x.id)}
                     size="small"
                     variant="contained"
-                    color={x.category.match(/^-/) ? "secondary" : "primary"}
+                    color={x.category.match(/^-/) && "0x785236"}
                   >
                     {x.title.slice(1)}
                   </Button>

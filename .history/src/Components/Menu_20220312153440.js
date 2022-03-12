@@ -140,6 +140,18 @@ export default function Menu() {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: "36px",
+              ...(open && { display: "none" }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" noWrap component="div"></Typography>
           <span>{currentUser.firstname + " " + currentUser.lastname}</span>
 
@@ -148,7 +160,6 @@ export default function Menu() {
               sx={{
                 color: "white",
               }}
-              edge="end"
             />
           </IconButton>
         </Toolbar>

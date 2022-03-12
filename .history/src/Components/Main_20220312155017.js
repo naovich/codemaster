@@ -46,32 +46,32 @@ const codePostInit = {
 const webLang = [
   {
     label: "HTML",
-    keyId: "html",
+    key: "html",
     index: 0,
   },
   {
     label: "CSS",
-    keyId: "css",
+    key: "css",
     index: 1,
   },
   {
     label: "Vanilla JS",
-    keyId: "javascript",
+    key: "javascript",
     index: 2,
   },
   {
     label: "ReactJS",
-    keyId: "reactjs",
+    key: "reactjs",
     index: 3,
   },
   {
     label: "NodeJS",
-    keyId: "nodejs",
+    key: "nodejs",
     index: 4,
   },
   {
     label: "Firebase",
-    keyId: "firebase",
+    key: "firebase",
     index: 5,
   },
 ];
@@ -79,22 +79,22 @@ const webLang = [
 const otherLang = [
   {
     label: "C#",
-    keyId: "csharp",
+    key: "csharp",
     index: 0,
   },
   {
     label: "Dart",
-    keyId: "dart",
+    key: "dart",
     index: 1,
   },
   {
     label: "PHP",
-    keyId: "php",
+    key: "php",
     index: 2,
   },
   {
     label: "MySql",
-    keyId: "mysql",
+    key: "mysql",
     index: 3,
   },
 ];
@@ -102,7 +102,7 @@ const otherLang = [
 function Main() {
   //------------- Initialisation ---------------
 
-  const [lang, setLang] = useState("note");
+  const [lang, setLang] = useState("javascript");
   const [codeTitle, setCodeTitle] = useState([]);
   const [codePost, setCodePost] = useState(codePostInit);
   const [lastCategory, setLastCategory] = useState("");
@@ -120,15 +120,10 @@ function Main() {
       orderBy("category", "asc"),
       orderBy("title", "asc")
     );
-    const unsub = onSnapshot(
-      q,
-      (snapshot) =>
-        setCodeTitle(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        ),
-      gotoPost("0wtSF6ovkHlPQ3Y3gFMH")
+    const unsub = onSnapshot(q, (snapshot) =>
+      setCodeTitle(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
-  }, [lang]);
+  }, []);
 
   //------ Chargement des données de post  ---------
 
@@ -141,10 +136,6 @@ function Main() {
       // console.log(codePost);
     }
   };
-  //-------------------   Change langue -------------------
-  function changeLang(langId) {
-    setLang(langId);
-  }
 
   //-------------------   Filtre -------------------
 
@@ -161,33 +152,19 @@ function Main() {
         <Stack direction="column">
           <Divider />
           <List>
-            {webLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
+            {webLang.map((text, index) => (
+              <ListItem button key={text.key}>
+                <ListItemText primary={text.label} />
               </ListItem>
             ))}
           </List>
           <Divider />
           <List>
-            {otherLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
+            {otherLang.map((text, index) => (
+              <ListItem button key={text.key}>
+                <ListItemText primary={text.label} />
               </ListItem>
             ))}
-          </List>
-          <Divider />
-          <List>
-            <ListItem onClick={() => changeLang("note")} button key="note">
-              <ListItemText primary="Notes" />
-            </ListItem>
           </List>
         </Stack>
         <Stack sx={theme.firstCol} direction="column">
@@ -207,7 +184,6 @@ function Main() {
                     onClick={() => gotoPost(x.id)}
                     size="small"
                     variant="contained"
-                    color={x.category.match(/^-/) ? "secondary" : "primary"}
                   >
                     {x.title.slice(1)}
                   </Button>
@@ -249,22 +225,20 @@ function Main() {
           <Box sx={theme.mainCol}>
             <Stack direction="row">
               <Stack sx={theme.titles}>
+                <Typography variant="span">Title: {codePost.title}</Typography>
                 <Typography variant="span">
-                  <b>Title :</b> {codePost.title}
+                  Cathegorie: {codePost.category}{" "}
                 </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b> {codePost.category}
-                </Typography>
-                <Typography variant="span">Dépendences : * </Typography>
+                <Typography variant="span">Dépendences: </Typography>
               </Stack>
 
               <Stack sx={theme.titles}>
-                <Typography variant="span">Modification : *</Typography>
-                <Typography variant="span">Création : *</Typography>
+                <Typography variant="span">Modification: 18/08/2022</Typography>
+                <Typography variant="span">Création: 18/08/2020</Typography>
               </Stack>
 
               <Stack>
-                <Typography variant="span">Testé : * </Typography>
+                <Typography variant="span">Testé: </Typography>
               </Stack>
             </Stack>
 

@@ -274,16 +274,9 @@ export function UpdateCode({
           <>
             <Stack direction="row">
               <Stack sx={theme2.titles}>
-                <Typography variant="span">
-                  {" "}
-                  <b>Langage :</b>
-                </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b>{" "}
-                </Typography>
-                <Typography variant="span">
-                  <b>Titre : </b>
-                </Typography>
+                <Typography variant="span">Langage :{lang}</Typography>
+                <Typography variant="span">Cathégorie : {category} </Typography>
+                <Typography variant="span">Titre : {title} </Typography>
               </Stack>
 
               <Stack sx={theme2.titles}>
@@ -312,7 +305,6 @@ export function UpdateCode({
               rows={30}
               cols={3}
               ref={codeRef}
-              placeholder={isNew && "Code"}
               defaultValue={!isNew ? code : ""}
               onChange={onChangeCode}
             />
@@ -321,7 +313,6 @@ export function UpdateCode({
               rows={5}
               cols={3}
               ref={commentRef}
-              placeholder={isNew && "Commentaire"}
               defaultValue={!isNew ? comment : ""}
             />
           </>

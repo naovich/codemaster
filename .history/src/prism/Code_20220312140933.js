@@ -92,7 +92,6 @@ export function UpdateCode({
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [dialogOpened, setDialogOpened] = useState(false);
-  const [snackOpened, setSnackOpened] = useState(false);
 
   const langRef = useRef(null);
   const codeRef = useRef(null);
@@ -103,7 +102,6 @@ export function UpdateCode({
 
   function newPost() {
     setIsNew(true);
-    setSnackOpened(true);
   }
 
   function cancelPost() {
@@ -208,7 +206,11 @@ export function UpdateCode({
         handleClose={cancelDelete}
         deletePost={deleteDocById}
       />
-
+      <SnackMessage
+        opened={true}
+        message="Enregistré avec succés"
+        time={4000}
+      />
       <Stack>
         <Stack direction="row" spacing={3}>
           {isNew ? (
@@ -274,16 +276,9 @@ export function UpdateCode({
           <>
             <Stack direction="row">
               <Stack sx={theme2.titles}>
-                <Typography variant="span">
-                  {" "}
-                  <b>Langage :</b>
-                </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b>{" "}
-                </Typography>
-                <Typography variant="span">
-                  <b>Titre : </b>
-                </Typography>
+                <Typography variant="span">Langage :{lang}</Typography>
+                <Typography variant="span">Cathégorie : {category} </Typography>
+                <Typography variant="span">Titre : {title} </Typography>
               </Stack>
 
               <Stack sx={theme2.titles}>
@@ -312,7 +307,6 @@ export function UpdateCode({
               rows={30}
               cols={3}
               ref={codeRef}
-              placeholder={isNew && "Code"}
               defaultValue={!isNew ? code : ""}
               onChange={onChangeCode}
             />
@@ -321,7 +315,6 @@ export function UpdateCode({
               rows={5}
               cols={3}
               ref={commentRef}
-              placeholder={isNew && "Commentaire"}
               defaultValue={!isNew ? comment : ""}
             />
           </>

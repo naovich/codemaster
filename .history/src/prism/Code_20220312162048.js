@@ -274,16 +274,9 @@ export function UpdateCode({
           <>
             <Stack direction="row">
               <Stack sx={theme2.titles}>
-                <Typography variant="span">
-                  {" "}
-                  <b>Langage :</b>
-                </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b>{" "}
-                </Typography>
-                <Typography variant="span">
-                  <b>Titre : </b>
-                </Typography>
+                <Typography variant="span"> <b></b>Langage :</b></Typography>
+                <Typography variant="span"><b>Cathégorie :</b> </Typography>
+                <Typography variant="span"><b>Titre : </b></Typography>
               </Stack>
 
               <Stack sx={theme2.titles}>

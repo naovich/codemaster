@@ -1,12 +1,4 @@
-import {
-  Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { Box, createTheme } from "@mui/system";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -43,66 +35,10 @@ const codePostInit = {
     `,
 };
 
-const webLang = [
-  {
-    label: "HTML",
-    keyId: "html",
-    index: 0,
-  },
-  {
-    label: "CSS",
-    keyId: "css",
-    index: 1,
-  },
-  {
-    label: "Vanilla JS",
-    keyId: "javascript",
-    index: 2,
-  },
-  {
-    label: "ReactJS",
-    keyId: "reactjs",
-    index: 3,
-  },
-  {
-    label: "NodeJS",
-    keyId: "nodejs",
-    index: 4,
-  },
-  {
-    label: "Firebase",
-    keyId: "firebase",
-    index: 5,
-  },
-];
-
-const otherLang = [
-  {
-    label: "C#",
-    keyId: "csharp",
-    index: 0,
-  },
-  {
-    label: "Dart",
-    keyId: "dart",
-    index: 1,
-  },
-  {
-    label: "PHP",
-    keyId: "php",
-    index: 2,
-  },
-  {
-    label: "MySql",
-    keyId: "mysql",
-    index: 3,
-  },
-];
-
 function Main() {
   //------------- Initialisation ---------------
 
-  const [lang, setLang] = useState("note");
+  const [lang, setLang] = useState("javascript");
   const [codeTitle, setCodeTitle] = useState([]);
   const [codePost, setCodePost] = useState(codePostInit);
   const [lastCategory, setLastCategory] = useState("");
@@ -120,15 +56,10 @@ function Main() {
       orderBy("category", "asc"),
       orderBy("title", "asc")
     );
-    const unsub = onSnapshot(
-      q,
-      (snapshot) =>
-        setCodeTitle(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        ),
-      gotoPost("0wtSF6ovkHlPQ3Y3gFMH")
+    const unsub = onSnapshot(q, (snapshot) =>
+      setCodeTitle(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
-  }, [lang]);
+  }, []);
 
   //------ Chargement des données de post  ---------
 
@@ -141,10 +72,6 @@ function Main() {
       // console.log(codePost);
     }
   };
-  //-------------------   Change langue -------------------
-  function changeLang(langId) {
-    setLang(langId);
-  }
 
   //-------------------   Filtre -------------------
 
@@ -158,38 +85,6 @@ function Main() {
   return (
     <>
       <Stack direction="row" spacing={2}>
-        <Stack direction="column">
-          <Divider />
-          <List>
-            {webLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {otherLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            <ListItem onClick={() => changeLang("note")} button key="note">
-              <ListItemText primary="Notes" />
-            </ListItem>
-          </List>
-        </Stack>
         <Stack sx={theme.firstCol} direction="column">
           <input
             ref={filterRef}
@@ -207,7 +102,6 @@ function Main() {
                     onClick={() => gotoPost(x.id)}
                     size="small"
                     variant="contained"
-                    color={x.category.match(/^-/) ? "secondary" : "primary"}
                   >
                     {x.title.slice(1)}
                   </Button>
@@ -231,7 +125,7 @@ function Main() {
                       size="small"
                       variant="contained"
                     >
-                      {x.title.slice(1)}
+                      {x.title}
                     </Button>
                   ) : (
                     <Button
@@ -249,22 +143,20 @@ function Main() {
           <Box sx={theme.mainCol}>
             <Stack direction="row">
               <Stack sx={theme.titles}>
+                <Typography variant="span">Title: {codePost.title}</Typography>
                 <Typography variant="span">
-                  <b>Title :</b> {codePost.title}
+                  Cathegorie: {codePost.category}{" "}
                 </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b> {codePost.category}
-                </Typography>
-                <Typography variant="span">Dépendences : * </Typography>
+                <Typography variant="span">Dépendences: </Typography>
               </Stack>
 
               <Stack sx={theme.titles}>
-                <Typography variant="span">Modification : *</Typography>
-                <Typography variant="span">Création : *</Typography>
+                <Typography variant="span">Modification: 18/08/2022</Typography>
+                <Typography variant="span">Création: 18/08/2020</Typography>
               </Stack>
 
               <Stack>
-                <Typography variant="span">Testé : * </Typography>
+                <Typography variant="span">Testé: </Typography>
               </Stack>
             </Stack>
 

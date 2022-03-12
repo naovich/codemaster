@@ -102,7 +102,7 @@ const otherLang = [
 function Main() {
   //------------- Initialisation ---------------
 
-  const [lang, setLang] = useState("note");
+  const [lang, setLang] = useState("javascript");
   const [codeTitle, setCodeTitle] = useState([]);
   const [codePost, setCodePost] = useState(codePostInit);
   const [lastCategory, setLastCategory] = useState("");
@@ -207,7 +207,6 @@ function Main() {
                     onClick={() => gotoPost(x.id)}
                     size="small"
                     variant="contained"
-                    color={x.category.match(/^-/) ? "secondary" : "primary"}
                   >
                     {x.title.slice(1)}
                   </Button>

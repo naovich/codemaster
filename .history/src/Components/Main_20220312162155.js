@@ -102,7 +102,7 @@ const otherLang = [
 function Main() {
   //------------- Initialisation ---------------
 
-  const [lang, setLang] = useState("note");
+  const [lang, setLang] = useState("javascript");
   const [codeTitle, setCodeTitle] = useState([]);
   const [codePost, setCodePost] = useState(codePostInit);
   const [lastCategory, setLastCategory] = useState("");
@@ -183,12 +183,6 @@ function Main() {
               </ListItem>
             ))}
           </List>
-          <Divider />
-          <List>
-            <ListItem onClick={() => changeLang("note")} button key="note">
-              <ListItemText primary="Notes" />
-            </ListItem>
-          </List>
         </Stack>
         <Stack sx={theme.firstCol} direction="column">
           <input
@@ -207,7 +201,6 @@ function Main() {
                     onClick={() => gotoPost(x.id)}
                     size="small"
                     variant="contained"
-                    color={x.category.match(/^-/) ? "secondary" : "primary"}
                   >
                     {x.title.slice(1)}
                   </Button>

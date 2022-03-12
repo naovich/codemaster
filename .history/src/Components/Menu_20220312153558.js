@@ -140,6 +140,9 @@ export default function Menu() {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
+     
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" noWrap component="div"></Typography>
           <span>{currentUser.firstname + " " + currentUser.lastname}</span>
 
