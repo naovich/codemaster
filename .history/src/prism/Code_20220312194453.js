@@ -192,8 +192,6 @@ export function UpdateCode({
       codeRef.current.value = "";
       cancelPost();
 
-      console.log(docref);
-
       return docref;
       //console.log(docref.id);
     } else {

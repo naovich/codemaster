@@ -192,8 +192,6 @@ export function UpdateCode({
       codeRef.current.value = "";
       cancelPost();
 
-      console.log(docref);
-
       return docref;
       //console.log(docref.id);
     } else {
@@ -278,13 +276,13 @@ export function UpdateCode({
               <Stack sx={theme2.titles}>
                 <Typography variant="span">
                   {" "}
-                  <b>Langage</b>
+                  <b>Langage :</b>
                 </Typography>
                 <Typography variant="span">
-                  <b>Catégorie</b>{" "}
+                  <b>Catégorie :</b>{" "}
                 </Typography>
                 <Typography variant="span">
-                  <b>Titre</b>
+                  <b>Titre : </b>
                 </Typography>
               </Stack>
 
@@ -339,7 +337,6 @@ export function UpdateCode({
 
 const theme2 = {
   titles: {
-    marginRight: 5,
     marginTop: 3,
   },
   boxComment: {

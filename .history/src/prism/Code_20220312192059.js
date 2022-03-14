@@ -55,7 +55,7 @@ function Code({ code }) {
   return (
     <>
       <Typography align="left" color="white" variant="h5"></Typography>
-      <Stack direction="row" sx={{ minHeight: 500 }}>
+      <Stack direction="row" sx={{ height: 920, width: 782 }}>
         <Highlight {...defaultProps} theme={theme} code={code} language="jsx">
           {({ className, style, tokens, getLineProps, getTokenProps }) => (
             <Pre className={className} style={style}>
@@ -192,8 +192,6 @@ export function UpdateCode({
       codeRef.current.value = "";
       cancelPost();
 
-      console.log(docref);
-
       return docref;
       //console.log(docref.id);
     } else {
@@ -278,13 +276,13 @@ export function UpdateCode({
               <Stack sx={theme2.titles}>
                 <Typography variant="span">
                   {" "}
-                  <b>Langage</b>
+                  <b>Langage :</b>
                 </Typography>
                 <Typography variant="span">
-                  <b>Catégorie</b>{" "}
+                  <b>Catégorie :</b>{" "}
                 </Typography>
                 <Typography variant="span">
-                  <b>Titre</b>
+                  <b>Titre : </b>
                 </Typography>
               </Stack>
 

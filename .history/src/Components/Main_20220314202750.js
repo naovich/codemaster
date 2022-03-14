@@ -134,8 +134,13 @@ function Main() {
   //------ Chargement des données de post  ---------
 
   const gotoPost = async (value) => {
-    const data = await getDataBydocId("codes", value);
-    setCodePost(data);
+    const docRef = doc(db, "codes", value);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setCodePost({ ...docSnap.data(), id: docSnap.id });
+      // console.log(codePost);
+    }
   };
   //-------------------   Change langue -------------------
   function changeLang(langId) {
@@ -224,7 +229,7 @@ function Main() {
                     (x.title.match(/^-/) ? (
                       <Button
                         key={x.id}
-                        onClick={() => gotoPost(x.id)}
+                        onClick={() => getDataBydocId("codes", x.id)}
                         size="small"
                         variant="contained"
                       >
@@ -233,7 +238,7 @@ function Main() {
                     ) : (
                       <Button
                         key={x.id}
-                        onClick={() => gotoPost(x.id)}
+                        onClick={() => getDataBydocId("codes", x.id)}
                         size="small"
                       >
                         {x.title}

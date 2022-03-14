@@ -192,8 +192,6 @@ export function UpdateCode({
       codeRef.current.value = "";
       cancelPost();
 
-      console.log(docref);
-
       return docref;
       //console.log(docref.id);
     } else {
@@ -310,7 +308,7 @@ export function UpdateCode({
             </Stack>
 
             <textarea
-              style={{ margin: 5 }}
+              style={{ margin: 5, maxHeight: 500 }}
               rows={30}
               cols={3}
               ref={codeRef}

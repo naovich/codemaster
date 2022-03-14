@@ -191,7 +191,6 @@ export function UpdateCode({
       const docref = await addDoc(collectionRef, payload);
       codeRef.current.value = "";
       cancelPost();
-
       console.log(docref);
 
       return docref;

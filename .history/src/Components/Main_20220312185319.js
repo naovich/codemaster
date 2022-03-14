@@ -134,8 +134,13 @@ function Main() {
   //------ Chargement des données de post  ---------
 
   const gotoPost = async (value) => {
-    const data = await getDataBydocId("codes", value);
-    setCodePost(data);
+    const docRef = doc(db, "codes", value);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setCodePost({ ...docSnap.data(), id: docSnap.id });
+      // console.log(codePost);
+    }
   };
   //-------------------   Change langue -------------------
   function changeLang(langId) {
@@ -154,7 +159,7 @@ function Main() {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid xs={2} sm={2} lg={1} item Stack>
+        <Grid xs={2} md={1} item Stack>
           <Divider />
           <List>
             {webLang.map((x, index) => (
@@ -186,7 +191,7 @@ function Main() {
             </ListItem>
           </List>
         </Grid>
-        <Grid className="scol" item xs={8} sm={2} lg={2} sx={theme.firstCol}>
+        <Grid item xs={2} md={2} sx={theme.firstCol}>
           <Stack>
             <input
               ref={filterRef}
@@ -242,7 +247,7 @@ function Main() {
                 )}
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={8} lg={6}>
+        <Grid item xs={9} md={6}>
           <Box sx={theme.mainCol}>
             <Stack direction="row">
               <Stack sx={theme.titles}>
@@ -275,7 +280,7 @@ function Main() {
             </Stack>
           </Box>
         </Grid>
-        <Grid item xs={12} lg={3} sx={theme.lastCol}>
+        <Grid item xs={12} md={3} sx={theme.lastCol}>
           <UpdateCode
             lang={codePost.lang}
             category={codePost.category}
@@ -296,15 +301,10 @@ const theme = {
   firstCol: {
     border: "solid 1px lightgrey",
     padding: 1,
-    marginTop: 2,
-    height: "85vh",
-    overflow: "scroll",
   },
   mainCol: {
     border: "solid 1px lightgrey",
     padding: 1,
-    height: "85vh",
-    overflow: "scroll",
   },
   titles: {
     marginRight: 5,
@@ -318,11 +318,7 @@ const theme = {
 
   lastCol: {
     border: "solid 1px lightgrey",
-    borderLeft: "0px",
     padding: 1,
-    marginTop: 2,
-    height: "85vh",
-    overflow: "scroll",
   },
   search: {},
 };

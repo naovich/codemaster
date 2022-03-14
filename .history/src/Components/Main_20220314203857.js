@@ -135,7 +135,15 @@ function Main() {
 
   const gotoPost = async (value) => {
     const data = await getDataBydocId("codes", value);
-    setCodePost(data);
+    setCodePost({ data, id: data.id });
+
+    /* const docRef = doc(db, "codes", value);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setCodePost({ ...docSnap.data(), id: docSnap.id });
+      // console.log(codePost);
+    }*/
   };
   //-------------------   Change langue -------------------
   function changeLang(langId) {

@@ -134,8 +134,13 @@ function Main() {
   //------ Chargement des données de post  ---------
 
   const gotoPost = async (value) => {
-    const data = await getDataBydocId("codes", value);
-    setCodePost(data);
+    const docRef = doc(db, "codes", value);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setCodePost({ ...docSnap.data(), id: docSnap.id });
+      // console.log(codePost);
+    }
   };
   //-------------------   Change langue -------------------
   function changeLang(langId) {
@@ -186,7 +191,7 @@ function Main() {
             </ListItem>
           </List>
         </Grid>
-        <Grid className="scol" item xs={8} sm={2} lg={2} sx={theme.firstCol}>
+        <Grid item xs={8} sm={2} lg={2} sx={theme.firstCol}>
           <Stack>
             <input
               ref={filterRef}
@@ -297,14 +302,12 @@ const theme = {
     border: "solid 1px lightgrey",
     padding: 1,
     marginTop: 2,
-    height: "85vh",
+    maxHeight: "80vh",
     overflow: "scroll",
   },
   mainCol: {
     border: "solid 1px lightgrey",
     padding: 1,
-    height: "85vh",
-    overflow: "scroll",
   },
   titles: {
     marginRight: 5,
@@ -321,8 +324,6 @@ const theme = {
     borderLeft: "0px",
     padding: 1,
     marginTop: 2,
-    height: "85vh",
-    overflow: "scroll",
   },
   search: {},
 };
