@@ -148,7 +148,7 @@ export function UpdateCode({
 
   //---------------- Modification -------------------
   const overideDocById = async () => {
-    //console.log(idPost);
+    console.log(idPost);
     if (
       langRef.current.value != "" &&
       categoryRef.current.value != "" &&
