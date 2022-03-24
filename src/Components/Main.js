@@ -79,24 +79,47 @@ const webLang = [
 
 const otherLang = [
   {
+    label: "React Native",
+    keyId: "reactnative",
+    index: 0,
+  },
+  {
     label: "C#",
     keyId: "csharp",
-    index: 0,
+    index: 1,
   },
   {
     label: "Dart",
     keyId: "dart",
-    index: 1,
+    index: 2,
   },
   {
     label: "PHP",
     keyId: "php",
-    index: 2,
+    index: 3,
   },
   {
     label: "MySql",
     keyId: "mysql",
-    index: 3,
+    index: 4,
+  },
+  {
+    label: "CI/CD",
+    keyId: "cicd",
+    index: 5,
+  },
+];
+
+const devops = [
+  {
+    label: "CI/CD",
+    keyId: "cicd",
+    index: 0,
+  },
+  {
+    label: "Projet",
+    keyId: "projet",
+    index: 1,
   },
 ];
 
@@ -181,6 +204,18 @@ function Main() {
           <Divider />
           <List>
             {otherLang.map((x, index) => (
+              <ListItem
+                onClick={() => changeLang(x.keyId)}
+                button
+                key={x.keyId}
+              >
+                <ListItemText primary={x.label} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {devops.map((x, index) => (
               <ListItem
                 onClick={() => changeLang(x.keyId)}
                 button
