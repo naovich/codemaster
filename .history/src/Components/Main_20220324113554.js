@@ -110,19 +110,6 @@ const otherLang = [
   },
 ];
 
-const devops = [
-  {
-    label: "CI/CD",
-    keyId: "cicd",
-    index: 0,
-  },
-  {
-    label: "Projet",
-    keyId: "projet",
-    index: 1,
-  },
-];
-
 function Main() {
   //------------- Initialisation ---------------
 

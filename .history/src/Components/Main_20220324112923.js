@@ -103,24 +103,6 @@ const otherLang = [
     keyId: "mysql",
     index: 4,
   },
-  {
-    label: "CI/CD",
-    keyId: "cicd",
-    index: 5,
-  },
-];
-
-const devops = [
-  {
-    label: "CI/CD",
-    keyId: "cicd",
-    index: 0,
-  },
-  {
-    label: "Projet",
-    keyId: "projet",
-    index: 1,
-  },
 ];
 
 function Main() {
@@ -204,18 +186,6 @@ function Main() {
           <Divider />
           <List>
             {otherLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {devops.map((x, index) => (
               <ListItem
                 onClick={() => changeLang(x.keyId)}
                 button
