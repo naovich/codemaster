@@ -32,7 +32,7 @@ const codePostInit = {
   comment: "comment",
   lang: "javascript",
   category: "Tableau",
-  code: ``,
+  code: `Code Master by Ndhoir ATTOUMANI`,
 };
 
 function Main() {
@@ -178,7 +178,7 @@ function Main() {
   return (
     <>
       <Grid container spacing={2}>
-         <LeftMenu lang={lang} onChangeLang={onChangeLang} />
+        <LeftMenu lang={lang} onChangeLang={onChangeLang} />
         <Grid className="scol" item xs={8} sm={2} lg={2} sx={theme.firstCol}>
           <FilterMenu codeTitle={codeTitle} gotoPost={gotoPost} />
         </Grid>
