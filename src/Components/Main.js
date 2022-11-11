@@ -32,7 +32,7 @@ const codePostInit = {
   comment: "comment",
   lang: "javascript",
   category: "Tableau",
-  code: `Code Master by Ndhoir ATTOUMANI`,
+  code: `Code Master by Nadhoir ATTOUMANI`,
 };
 
 function Main() {
