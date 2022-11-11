@@ -1,28 +1,30 @@
-import {
-  Button,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { Box, createTheme } from "@mui/system";
-
+import { Grid, Stack } from "@mui/material";
+import { Box } from "@mui/system";
+import LeftMenu from "./LeftMenu";
+import FilterMenu from "./FilterMenu";
 import React, { useEffect, useRef, useState } from "react";
-import Code, { UpdateCode } from "../prism/Code";
-import { db, getDataBydocId } from "../db/firebase";
+
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+
+import { db } from "../db/firebase";
 import {
   collection,
   doc,
+  addDoc,
   getDoc,
+  setDoc,
   onSnapshot,
   orderBy,
   query,
   where,
+  serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import ConfirmDialog from "./ConfirmDialog";
+import { vsCodeTheme } from "./codeTheme";
+import Header from "./Header";
+import CrudButton from "./CrudButton";
 
 const codePostInit = {
   id: 0,
@@ -30,98 +32,8 @@ const codePostInit = {
   comment: "comment",
   lang: "javascript",
   category: "Tableau",
-  code: `
-    import React, { useState } from "react";
-    function Example() {
-      const [count, setCount] = useState(0);
-      return (
-        <div>
-          <p>You clicked {count} times</p>
-          <button onClick={() => setCount(count + 1)}>Click me</button> <button onClick={() => setCount(count + 1)}>Click me</button>
-          </div>
-      );
-    }
-    `,
+  code: ``,
 };
-
-const webLang = [
-  {
-    label: "HTML",
-    keyId: "html",
-    index: 0,
-  },
-  {
-    label: "CSS",
-    keyId: "css",
-    index: 1,
-  },
-  {
-    label: "Vanilla JS",
-    keyId: "javascript",
-    index: 2,
-  },
-  {
-    label: "ReactJS",
-    keyId: "reactjs",
-    index: 3,
-  },
-  {
-    label: "NodeJS",
-    keyId: "nodejs",
-    index: 4,
-  },
-  {
-    label: "Firebase",
-    keyId: "firebase",
-    index: 5,
-  },
-];
-
-const otherLang = [
-  {
-    label: "React Native",
-    keyId: "reactnative",
-    index: 0,
-  },
-  {
-    label: "C#",
-    keyId: "csharp",
-    index: 1,
-  },
-  {
-    label: "Dart",
-    keyId: "dart",
-    index: 2,
-  },
-  {
-    label: "PHP",
-    keyId: "php",
-    index: 3,
-  },
-  {
-    label: "MySql",
-    keyId: "mysql",
-    index: 4,
-  },
-  {
-    label: "CI/CD",
-    keyId: "cicd",
-    index: 5,
-  },
-];
-
-const devops = [
-  {
-    label: "CI/CD",
-    keyId: "cicd",
-    index: 0,
-  },
-  {
-    label: "Projet",
-    keyId: "projet",
-    index: 1,
-  },
-];
 
 function Main() {
   //------------- Initialisation ---------------
@@ -129,10 +41,15 @@ function Main() {
   const [lang, setLang] = useState("note");
   const [codeTitle, setCodeTitle] = useState([]);
   const [codePost, setCodePost] = useState(codePostInit);
-  const [lastCategory, setLastCategory] = useState("");
 
-  const [filter, setFilter] = useState("");
-  const filterRef = useRef();
+  const [isNew, setIsNew] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [dialogOpened, setDialogOpened] = useState(false);
+  const [snackOpened, setSnackOpened] = useState(false);
+
+  const langRef = useRef(null);
+  const titleRef = useRef(null);
+  const categoryRef = useRef(null);
 
   //------ Chargement des données de départ  ---------
 
@@ -144,193 +61,165 @@ function Main() {
       orderBy("category", "asc"),
       orderBy("title", "asc")
     );
-    const unsub = onSnapshot(
-      q,
-      (snapshot) =>
-        setCodeTitle(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        ),
-      gotoPost("0wtSF6ovkHlPQ3Y3gFMH")
+    onSnapshot(q, (snapshot) =>
+      setCodeTitle(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
   }, [lang]);
-
-  //------ Chargement des données de post  ---------
-
-  /* 
-    const gotoPost = async (value) => {
-    const data = await getDataBydocId("codes", value);
-    setCodePost({ ...data, id: data.id });
-  };
-*/
   const gotoPost = async (value) => {
     const docRef = doc(db, "codes", value);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       setCodePost({ ...docSnap.data(), id: docSnap.id });
-      // console.log(codePost);
+      cancelUpdate();
     }
   };
   //-------------------   Change langue -------------------
-  function changeLang(langId) {
+  function onChangeLang(langId) {
     setLang(langId);
+    cancelUpdate();
   }
 
-  //-------------------   Filtre -------------------
+  //--------------------------------Update Code -------------------
 
-  function filterMe() {
-    const find = new RegExp(filterRef.current.value, "i"); // correct way
-    setFilter(find);
+  function newPost() {
+    setIsNew(true);
+    setCodePost({ ...codePost, code: "", title: "" });
+    setSnackOpened(true);
   }
-  const lastCat = "";
+
+  function duplicatePost() {
+    setIsNew(true);
+    setCodePost({ ...codePost, title: "" });
+    setSnackOpened(true);
+  }
+
+  function cancelPost() {
+    setIsNew(false);
+  }
+
+  function updateInterface() {
+    setIsUpdate(true);
+  }
+
+  function cancelUpdate() {
+    setIsUpdate(false);
+  }
+
+  function confirmDelete() {
+    setDialogOpened(true);
+  }
+
+  function cancelDelete() {
+    setDialogOpened(false);
+  }
+
+  //---------------- Suppression -------------------
+
+  const deleteDocById = async () => {
+    const docRef = doc(db, "codes", codePost.id);
+    try {
+      await deleteDoc(docRef);
+    } catch (e) {
+      console.log("Erreur");
+    } finally {
+      cancelDelete();
+      setCodePost(codePostInit);
+      console.log("Suppprimé");
+    }
+  };
+
+  //---------------- Modification -------------------
+  const overideDocById = async () => {
+    if (
+      langRef.current.value !== "" &&
+      categoryRef.current.value !== "" &&
+      titleRef.current.value !== ""
+    ) {
+      const payload = {
+        lang: langRef.current.value,
+        title: titleRef.current.value.toLowerCase(),
+        code: codePost.code,
+        category: categoryRef.current.value,
+        timestamp: serverTimestamp(),
+      };
+      const docRef = doc(db, "codes", codePost.id);
+      await setDoc(docRef, payload);
+
+      cancelUpdate();
+    }
+  };
+
+  //---------------- Insertion -------------------
+  const savePost = async () => {
+    if (
+      langRef.current.value !== "" &&
+      categoryRef.current.value !== "" &&
+      titleRef.current.value !== ""
+    ) {
+      const payload = {
+        lang: langRef.current.value.toLowerCase(),
+        title: titleRef.current.value.toLowerCase(),
+        code: codePost.code,
+        category: categoryRef.current.value.toLowerCase(),
+        timestamp: serverTimestamp(),
+      };
+
+      const collectionRef = collection(db, "codes");
+      const docref = await addDoc(collectionRef, payload);
+      cancelPost();
+      gotoPost(docref.id);
+    } else {
+      console.log("Remplir les champs");
+    }
+  };
   //--------------------- RENDER --------------------
 
   return (
     <>
       <Grid container spacing={2}>
-        <Grid xs={2} sm={2} lg={1} item Stack>
-          <Divider />
-          <List>
-            {webLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {otherLang.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {devops.map((x, index) => (
-              <ListItem
-                onClick={() => changeLang(x.keyId)}
-                button
-                key={x.keyId}
-              >
-                <ListItemText primary={x.label} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            <ListItem onClick={() => changeLang("note")} button key="note">
-              <ListItemText primary="Notes" />
-            </ListItem>
-          </List>
-        </Grid>
+         <LeftMenu lang={lang} onChangeLang={onChangeLang} />
         <Grid className="scol" item xs={8} sm={2} lg={2} sx={theme.firstCol}>
-          <Stack>
-            <input
-              ref={filterRef}
-              onChange={filterMe}
-              type="text"
-              placeholder="Recherche..."
-              style={{ marginBottom: 10 }}
-            />
-
-            {filter == ""
-              ? codeTitle.map((x) =>
-                  x.title.match(/^-/) ? (
-                    <Button
-                      key={x.id}
-                      onClick={() => gotoPost(x.id)}
-                      size="small"
-                      variant="contained"
-                      color={x.category.match(/^-/) ? "secondary" : "primary"}
-                    >
-                      {x.title.slice(1)}
-                    </Button>
-                  ) : (
-                    <Button
-                      key={x.id}
-                      onClick={() => gotoPost(x.id)}
-                      size="small"
-                    >
-                      {x.title}
-                    </Button>
-                  )
-                )
-              : codeTitle.map(
-                  (x) =>
-                    x.title.match(filter) &&
-                    (x.title.match(/^-/) ? (
-                      <Button
-                        key={x.id}
-                        onClick={() => gotoPost(x.id)}
-                        size="small"
-                        variant="contained"
-                        color={x.category.match(/^-/) ? "secondary" : "primary"}
-                      >
-                        {x.title.slice(1)}
-                      </Button>
-                    ) : (
-                      <Button
-                        key={x.id}
-                        onClick={() => gotoPost(x.id)}
-                        size="small"
-                      >
-                        {x.title}
-                      </Button>
-                    ))
-                )}
-          </Stack>
+          <FilterMenu codeTitle={codeTitle} gotoPost={gotoPost} />
         </Grid>
-        <Grid item xs={12} sm={8} lg={6}>
+        <Grid item xs={12} sm={8} lg={8}>
           <Box sx={theme.mainCol}>
-            <Stack direction="row">
-              <Stack sx={theme.titles}>
-                <Typography variant="span">
-                  <b>Title :</b> {codePost.title}
-                </Typography>
-                <Typography variant="span">
-                  <b>Catégorie :</b> {codePost.category}
-                </Typography>
-                <Typography variant="span">Dépendences : * </Typography>
-              </Stack>
+            <Header codePost={codePost} theme={theme} />
 
-              <Stack sx={theme.titles}>
-                <Typography variant="span">Modification : *</Typography>
-                <Typography variant="span">Création : *</Typography>
-              </Stack>
-
-              <Stack>
-                <Typography variant="span">Testé : * </Typography>
-              </Stack>
-            </Stack>
-
-            <Stack sx={theme.codeBox}>
-              <Code
-                key={codePost.id}
-                code={codePost.code}
-                comment={codePost.id}
+            <Stack sx={theme.codeBox} spacing={3}>
+              <ConfirmDialog
+                message=" Voulez-vous suppression l'enregistrement ?"
+                title="SUPPRIMER"
+                opened={dialogOpened}
+                handleClose={cancelDelete}
+                deletePost={deleteDocById}
+              />
+              <CrudButton
+                isNew={isNew}
+                savePost={savePost}
+                cancelPost={cancelPost}
+                isUpdate={isUpdate}
+                updateInterface={updateInterface}
+                cancelUpdate={cancelUpdate}
+                confirmDelete={confirmDelete}
+                newPost={newPost}
+                duplicatePost={duplicatePost}
+                overideDocById={overideDocById}
+                theme={theme}
+                lang={lang}
+                category={codePost.category}
                 title={codePost.title}
+                ref={{ langRef, titleRef, categoryRef }}
+              />
+              <CodeMirror
+                value={codePost.code}
+                height="700px"
+                extensions={[javascript({ jsx: true })]}
+                theme={vsCodeTheme}
+                onChange={(value) => setCodePost({ ...codePost, code: value })}
               />
             </Stack>
           </Box>
-        </Grid>
-        <Grid item xs={12} lg={3} sx={theme.lastCol}>
-          <UpdateCode
-            lang={codePost.lang}
-            category={codePost.category}
-            title={codePost.title}
-            code={codePost.code}
-            comment={codePost.comment}
-            idPost={codePost.id}
-          />
         </Grid>
       </Grid>
     </>
@@ -360,7 +249,8 @@ const theme = {
     border: "solid 1px lightgrey",
     padding: 1,
     marginTop: 2,
-    backgroundColor: "#011627",
+    backgroundColor: "#EAF8F2",
+    maxWidth: "100%",
   },
 
   lastCol: {

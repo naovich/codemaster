@@ -1,5 +1,4 @@
 //------------------------- IMPORT -------------------------------
-import React from "react";
 import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
@@ -15,7 +14,6 @@ import {
 import {
   getFirestore,
   collection,
-  onSnapshot,
   setDoc,
   updateDoc,
   query,
@@ -27,10 +25,8 @@ import {
   serverTimestamp,
   orderBy,
   getDoc,
-  getDocFromServer,
 } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-import { useStateValue } from "../db/StateProvider";
+
 import { initialState } from "./reducer";
 
 //------------------------- CONFIG -------------------------------
@@ -125,13 +121,12 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
+    //const uid = user.uid;
     // console.log(uid);
     /*console.log(user.photoURL);
     console.log(user.phoneNumber);
     console.log(user.displayName);*/
     //console.log(user.emailVerified);
-
     // ...
   } else {
     // User is signed out
@@ -245,7 +240,6 @@ export const insertDoc = async (collec, payload) => {
   const collectionRef = collection(db, collec);
   const docref = await addDoc(collectionRef, payload);
   return docref;
-  console.log(docref.id);
 };
 
 /*

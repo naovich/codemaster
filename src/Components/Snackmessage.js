@@ -1,6 +1,4 @@
 import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -10,10 +8,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function SnackMessage({ opened, message, time }) {
   const [open, setOpen] = React.useState(opened);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
