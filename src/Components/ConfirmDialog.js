@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-
+import PropTypes from "prop-types";
 export default function ConfirmDialog({
   title,
   message,
@@ -15,13 +15,9 @@ export default function ConfirmDialog({
   opened,
   handleClose,
 }) {
-  const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   return (
     <div>
       <Dialog
@@ -46,3 +42,11 @@ export default function ConfirmDialog({
     </div>
   );
 }
+
+ConfirmDialog.propTypes = {
+  title: PropTypes.string,
+  message: PropTypes.string,
+  deletePost: PropTypes.func,
+  opened: PropTypes.bool,
+  handleClose: PropTypes.func,
+};

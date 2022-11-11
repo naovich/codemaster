@@ -76,7 +76,6 @@ export default function SignIn() {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
       return true;
     }
-    //alert("Email invalid");
     return false;
   }
 

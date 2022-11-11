@@ -21,10 +21,6 @@ const CrudButton = forwardRef(
     },
     ref
   ) => {
-    //const langRef = useRef(null);
-
-    // const titleRef = useRef(null);
-    //const categoryRef = useRef(null);
     const { langRef, titleRef, categoryRef } = ref;
     return (
       <Stack>

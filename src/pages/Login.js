@@ -27,7 +27,6 @@ export default function Login() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        //console.log(user.uid);
         navigate("/home");
       } else {
       }
