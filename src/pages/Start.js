@@ -1,10 +1,10 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, logout } from "../db/firebase";
+import { auth } from "../db/firebase";
 
 function Start() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -13,7 +13,7 @@ function Start() {
         navigate("/login");
       }
     });
-  }, []);
+  }, [navigate]);
 
   return <></>;
 }

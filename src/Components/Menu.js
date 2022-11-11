@@ -42,7 +42,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export default function Menu() {
+export default function Menu({ children }) {
   const [open, setOpen] = React.useState(false);
 
   const logoutButton = () => {
@@ -94,7 +94,7 @@ export default function Menu() {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Main />
+        {children}
       </Box>
     </Box>
   );

@@ -1,16 +1,7 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-} from "@mui/material";
-import { Box, createTheme } from "@mui/system";
+import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
 
-function LeftMenu({ lang, onChangeLang }) {
+function LeftMenu({ onChangeLang }) {
   const webLang = [
     {
       label: "HTML",
