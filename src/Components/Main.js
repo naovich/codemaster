@@ -65,6 +65,7 @@ function Main() {
       setCodeTitle(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
   }, [lang]);
+
   const gotoPost = async (value) => {
     const docRef = doc(db, "codes", value);
     const docSnap = await getDoc(docRef);

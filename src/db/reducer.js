@@ -1,6 +1,5 @@
-import { useReducer } from "react";
 import { produce } from "immer";
-import { getDataBydocId, getDataByField } from "./firebase";
+import { getDataBydocId } from "./firebase";
 
 export const initialState = {
   uid: 0,
@@ -25,13 +24,12 @@ const reducer = async (state = initialState, action) => {
       return produce(state, (draft) => {
         draft.user = mdata;
       });
-      break;
+
     case "post":
       const post = await getDataBydocId("codes", action.payload);
       return produce(state, (draft) => {
         draft.postCode = post;
       });
-      break;
 
     default:
       return {};

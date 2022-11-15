@@ -12,7 +12,6 @@ import { auth, db, logout } from "../db/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-import Main from "./Main";
 const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
