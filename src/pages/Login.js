@@ -27,6 +27,7 @@ export default function Login() {
     onAuthStateChanged(auth, (user) => {
       user && navigate("/home");
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (event) => {
