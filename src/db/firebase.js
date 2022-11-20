@@ -113,13 +113,6 @@ const signInWithGoogle = async () => {
     console.error(err);
   }
 };
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-  } else {
-  }
-});
-
 //----------- REGISTER --------------
 
 const registerWithEmailAndPassword = async (

@@ -73,7 +73,7 @@ export default function Menu({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open="open">
+      <AppBar position="fixed" open={false}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div"></Typography>
           <span>{currentUser.firstname + " " + currentUser.lastname}</span>
