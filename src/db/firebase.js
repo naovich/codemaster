@@ -18,7 +18,6 @@ import {
   updateDoc,
   query,
   doc,
-  addDoc,
   deleteDoc,
   getDocs,
   where,
@@ -87,7 +86,6 @@ const signInWithFacebook = async () => {
     }
   } catch (err) {
     console.error(err);
-    // alert(err.message);
   }
 };
 
@@ -113,26 +111,8 @@ const signInWithGoogle = async () => {
     }
   } catch (err) {
     console.error(err);
-    // alert(err.message);
   }
 };
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    //const uid = user.uid;
-    // console.log(uid);
-    /*console.log(user.photoURL);
-    console.log(user.phoneNumber);
-    console.log(user.displayName);*/
-    //console.log(user.emailVerified);
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
 
 //----------- REGISTER --------------
 
@@ -154,7 +134,6 @@ const registerWithEmailAndPassword = async (
     });
   } catch (err) {
     console.error(err);
-    // alert(err.message);
   }
 };
 
@@ -174,12 +153,9 @@ const logout = () => {
 };
 
 //------------------------- QUERY -------------------------------
-//date: Timestamp.fromDate(new Date("December 10, 1815")),
 //------- GET -----------
 
 export const getDataBydocId = async (collect, value) => {
-  //const [{ user }, dispatch] = useStateValue();
-
   const docRef = doc(db, collect, value);
   const docSnap = await getDoc(docRef);
 
@@ -188,7 +164,6 @@ export const getDataBydocId = async (collect, value) => {
     initialState.user = docSnap.data();
     return docSnap.data();
   } else {
-    // doc.data() will be undefined in this case
     console.log("No such document!");
   }
 };
@@ -210,147 +185,6 @@ export const getDataByOrder = async (collect, field, order = "desc") => {
   return results;
 };
 
-/* 
-  useEffect(
-    () =>
-      onSnapshot(
-        collection(db, "user"),
-        (snapshot) =>
-          setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))) //console.log(snapshot.docs.map((doc) => doc.data()))
-      ),
-
-    []
-  );
-*/
-
-/*
-useEffect(() => {
-  const collectionRef = collection(db, "user");
-  const q = query(collectionRef, orderBy("timestamp", "desc"));
-  const unsub = onSnapshot(q, (snapshot) =>
-    setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-  );
-}, []);
-
-*/
-//-------- INSERT -------
-
-export const insertDoc = async (collec, payload) => {
-  payload = { ...payload, timestamp: serverTimestamp() };
-  const collectionRef = collection(db, collec);
-  const docref = await addDoc(collectionRef, payload);
-  return docref;
-};
-
-/*
-Dans certains cas, il peut être utile de créer une référence 
-de document avec un ID généré automatiquement, 
-puis d'utiliser la référence ultérieurement. 
-Pour ce cas d'utilisation, vous pouvez appeler doc()
-import { collection, doc, setDoc } from "firebase/firestore"; 
-// Add a new document with a generated id
-const newCityRef = doc(collection(db, "cities"));
-// later...
-await setDoc(newCityRef, data);
-
-//--------------------------
-
-import { doc, setDoc, updateDoc } from "firebase/firestore"; 
-// Create an initial document to update.
-const frankDocRef = doc(db, "users", "frank");
-await setDoc(frankDocRef, {
-    name: "Frank",
-    favorites: { food: "Pizza", color: "Blue", subject: "recess" },
-    age: 12
-});
-
-// To update age and favorite color:
-await updateDoc(frankDocRef, {
-    "age": 13,
-    "favorites.color": "Red"
-});
-
-//------------------- Mettre à jour un tableau
-
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-const washingtonRef = doc(db, "cities", "DC");
-
-// Atomically add a new region to the "regions" array field.
-await updateDoc(washingtonRef, {
-    regions: arrayUnion("greater_virginia")
-});
-
-// Atomically remove a region from the "regions" array field.
-await updateDoc(washingtonRef, {
-    regions: arrayRemove("east_coast")
-});
-
-//------------------- Incrémenter
-
-import { doc, updateDoc, increment } from "firebase/firestore";
-
-const washingtonRef = doc(db, "cities", "DC");
-
-// Atomically increment the population of the city by 50.
-await updateDoc(washingtonRef, {
-    population: increment(50)
-});
-
-//------------------- DELETE FIELD
-
-import { doc, updateDoc, deleteField } from "firebase/firestore";
-
-const cityRef = doc(db, 'cities', 'BJ');
-
-// Remove the 'capital' field from the document
-await updateDoc(cityRef, {
-    capital: deleteField()
-});
-
-
-
-//------------- GET LIMITE
-import { query, orderBy, limit } from "firebase/firestore";  
-
-const q = query(citiesRef, orderBy("name"), limit(3));
-const q = query(citiesRef, orderBy("name", "desc"), limit(3))
-const q = query(citiesRef, orderBy("state"), orderBy("population", "desc"));
-const q = query(citiesRef, where("population", ">", 100000), orderBy("population"), limit(2));
-const q = query(citiesRef, orderBy("population"), startAt(1000000)); startAfter(A)
-const q = query(citiesRef, orderBy("population"), endAt(1000000));  endBefore()
-const next = query(collection(db, "cities"),orderBy("population"),startAfter(lastVisible),limit(25));
-const q1 = query(collection(db, "cities"),
-   orderBy("name"),
-   orderBy("state"),
-   startAt("Springfield"));
-
-// Will return "Springfield, Missouri" and "Springfield, Wisconsin"
-const q2 = query(collection(db, "cities"),
-   orderBy("name"),
-   orderBy("state"),
-   startAt("Springfield", "Missouri"));
-
-
-// ----------- Acitver la persistance de données
-
-import { enableIndexedDbPersistence } from "firebase/firestore"; 
-
-enableIndexedDbPersistence(db)
-  .catch((err) => {
-      if (err.code == 'failed-precondition') {
-          // Multiple tabs open, persistence can only be enabled
-          // in one tab at a a time.
-          // ...
-      } else if (err.code == 'unimplemented') {
-          // The current browser does not support all of the
-          // features required to enable persistence
-          // ...
-      }
-  });
-// Subsequent queries will use persistence, if it was enabled successfully
-
-
-*/
 //-------- UPDATE -------
 
 export const updateDocById = async (collect, id, payload) => {
