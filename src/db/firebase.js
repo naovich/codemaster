@@ -113,7 +113,6 @@ const signInWithGoogle = async () => {
     console.error(err);
   }
 };
-
 //----------- REGISTER --------------
 
 const registerWithEmailAndPassword = async (
