@@ -45,7 +45,6 @@ function Main() {
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [dialogOpened, setDialogOpened] = useState(false);
-  const [snackOpened, setSnackOpened] = useState(false);
 
   const langRef = useRef(null);
   const titleRef = useRef(null);
@@ -86,13 +85,11 @@ function Main() {
   function newPost() {
     setIsNew(true);
     setCodePost({ ...codePost, code: "", title: "" });
-    setSnackOpened(true);
   }
 
   function duplicatePost() {
     setIsNew(true);
     setCodePost({ ...codePost, title: "" });
-    setSnackOpened(true);
   }
 
   function cancelPost() {

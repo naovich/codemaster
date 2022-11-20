@@ -42,8 +42,6 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Menu({ children }) {
-  const [open, setOpen] = React.useState(false);
-
   const logoutButton = () => {
     logout();
   };
@@ -75,7 +73,7 @@ export default function Menu({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open="open">
         <Toolbar>
           <Typography variant="h6" noWrap component="div"></Typography>
           <span>{currentUser.firstname + " " + currentUser.lastname}</span>

@@ -14,9 +14,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../Components/Copyright";
 import { useNavigate } from "react-router-dom";
-import { registerWithEmailAndPassword } from "../db/firebase";
+import { auth, registerWithEmailAndPassword } from "../db/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../db/firebase";
 
 const theme = createTheme();
 
@@ -27,7 +26,6 @@ export default function SignIn() {
   const [lastnameOk, setLastnameOk] = useState(true);
   const [emailOk, setEmailOk] = useState(true);
   const [passwordOk, setPasswordOk] = useState(true);
-  const [isSubmited, setIsSubmited] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -64,15 +62,14 @@ export default function SignIn() {
           data.get("password")
         )
       : console.log("Corrigez le formulaire");
-
-    setIsSubmited(true);
   };
 
   function ValidateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   return (

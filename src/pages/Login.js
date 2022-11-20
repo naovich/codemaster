@@ -14,10 +14,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../Components/Copyright";
-import { logInWithEmailAndPassword } from "../db/firebase";
+import { auth, logInWithEmailAndPassword } from "../db/firebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../db/firebase";
 
 const theme = createTheme();
 
