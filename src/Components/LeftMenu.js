@@ -19,19 +19,44 @@ function LeftMenu({ onChangeLang }) {
       index: 2,
     },
     {
+      label: "Typescript",
+      keyId: "typescript",
+      index: 3,
+    },
+    {
       label: "ReactJS",
       keyId: "reactjs",
-      index: 3,
+      index: 4,
+    },
+    {
+      label: "VueJs",
+      keyId: "vuejs",
+      index: 5,
+    },
+    {
+      label: "Augular",
+      keyId: "augular",
+      index: 6,
+    },
+    {
+      label: "Test",
+      keyId: "test",
+      index: 7,
     },
     {
       label: "NodeJS",
       keyId: "nodejs",
-      index: 4,
+      index: 8,
+    },
+    {
+      label: "NOSQL",
+      keyId: "nosql",
+      index: 9,
     },
     {
       label: "Firebase",
       keyId: "firebase",
-      index: 5,
+      index: 10,
     },
   ];
 
@@ -47,38 +72,28 @@ function LeftMenu({ onChangeLang }) {
       keyId: "reactnative",
       index: 1,
     },
-    {
-      label: "C#",
-      keyId: "csharp",
-      index: 2,
-    },
-    {
-      label: "Dart",
-      keyId: "dart",
-      index: 3,
-    },
-    {
-      label: "PHP",
-      keyId: "php",
-      index: 4,
-    },
-    {
-      label: "MySql",
-      keyId: "mysql",
-      index: 5,
-    },
   ];
 
   const devops = [
     {
+      label: "DevOps",
+      keyId: "devops",
+      index: 0,
+    },
+    {
       label: "CI/CD",
       keyId: "cicd",
-      index: 0,
+      index: 1,
+    },
+    {
+      label: "GIT",
+      keyId: "git",
+      index: 2,
     },
     {
       label: "Projet",
       keyId: "projet",
-      index: 1,
+      index: 3,
     },
   ];
 
