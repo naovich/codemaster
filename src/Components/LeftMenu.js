@@ -29,34 +29,39 @@ function LeftMenu({ onChangeLang }) {
       index: 4,
     },
     {
+      label: "ReactJS beta",
+      keyId: "reactjs2",
+      index: 5,
+    },
+    {
       label: "VueJs",
       keyId: "vuejs",
-      index: 5,
+      index: 6,
     },
     {
       label: "Augular",
       keyId: "augular",
-      index: 6,
+      index: 7,
     },
     {
       label: "Test",
       keyId: "test",
-      index: 7,
+      index: 8,
     },
     {
       label: "NodeJS",
       keyId: "nodejs",
-      index: 8,
+      index: 9,
     },
     {
       label: "NOSQL",
       keyId: "nosql",
-      index: 9,
+      index: 10,
     },
     {
       label: "Firebase",
       keyId: "firebase",
-      index: 10,
+      index: 11,
     },
   ];
 
