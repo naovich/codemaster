@@ -24,14 +24,19 @@ function LeftMenu({ onChangeLang }) {
       index: 3,
     },
     {
+      label: "ReactJS beta",
+      keyId: "reactjs2",
+      index: 4,
+    },
+    {
       label: "NodeJS",
       keyId: "nodejs",
-      index: 4,
+      index: 5,
     },
     {
       label: "Firebase",
       keyId: "firebase",
-      index: 5,
+      index: 6,
     },
   ];
 
@@ -46,26 +51,6 @@ function LeftMenu({ onChangeLang }) {
       label: "React Native",
       keyId: "reactnative",
       index: 1,
-    },
-    {
-      label: "C#",
-      keyId: "csharp",
-      index: 2,
-    },
-    {
-      label: "Dart",
-      keyId: "dart",
-      index: 3,
-    },
-    {
-      label: "PHP",
-      keyId: "php",
-      index: 4,
-    },
-    {
-      label: "MySql",
-      keyId: "mysql",
-      index: 5,
     },
   ];
 
